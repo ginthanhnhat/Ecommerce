@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { assets } from '../assets/assets'
 import { Link, NavLink } from 'react-router-dom'
 import Home from '../pages/Home'
@@ -8,7 +8,7 @@ import { ShopContext } from '../context/ShopContext'
 const Navbar = () => {
 
   const [ visible, setVisible ] = useState(false)
-  const { showSearch, setShowSearch, getCartCount } = useContext(ShopContext)
+  const { showSearch, setShowSearch, getCartCount, navigate } = useContext(ShopContext)
   
 
   return (
@@ -36,7 +36,7 @@ const Navbar = () => {
       </ul>
 
       <div className='flex items-center gap-6'>
-        <img onClick={()=>setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer ' alt=''/>
+        <img onClick={()=>{setShowSearch(!showSearch); navigate('/collection')}} src={assets.search_icon} className='w-5 cursor-pointer ' alt=''/>
 
         <div className='group relative'>
           <Link to='/login'><img src={assets.profile_icon} className='w-5 cursor-pointer' alt=''/></Link>

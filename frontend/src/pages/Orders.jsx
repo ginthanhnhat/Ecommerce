@@ -1,8 +1,8 @@
-import React, { useEffect, useContext, useState } from "react";
-import { ShopContext } from "../context/ShopContext";
-import Title from "../components/Title";
-import axios from "axios";
-import { toast } from "react-toastify";
+import React, { useEffect, useContext, useState } from 'react';
+import { ShopContext } from '../context/ShopContext';
+import Title from '../components/Title';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Orders = () => {
     const { backendUrl, token, currency } = useContext(ShopContext);
@@ -16,19 +16,19 @@ const Orders = () => {
             }
 
             const response = await axios.post(
-                backendUrl + "/api/order/userorders",
+                backendUrl + '/api/order/userorders',
                 {},
-                { headers: { token } }
+                { headers: { token } },
             );
             if (response.data.success) {
                 let allOrdersItem = [];
 
                 response.data.orders.map((order) => {
                     order.items.map((item) => {
-                        item["status"] = order.status;
-                        item["payment"] = order.payment;
-                        item["paymentMethod"] = order.paymentMethod;
-                        item["date"] = order.date;
+                        item['status'] = order.status;
+                        item['payment'] = order.payment;
+                        item['paymentMethod'] = order.paymentMethod;
+                        item['date'] = order.date;
 
                         allOrdersItem.push(item);
                     });
@@ -49,7 +49,7 @@ const Orders = () => {
     return (
         <div className="border-t pt-16">
             <div className="text-2xl">
-                <Title text1={"MY"} text2={"ORDERS"} />
+                <Title text1={'MY'} text2={'ORDERS'} />
             </div>
 
             <div className="p">
@@ -76,13 +76,13 @@ const Orders = () => {
                                     <p>Size: {item.size}</p>
                                 </div>
                                 <p className="mt-1">
-                                    Date:{" "}
+                                    Date:{' '}
                                     <span className="text-gray-400">
                                         {new Date(item.date).toDateString()}
                                     </span>
                                 </p>
                                 <p className="mt-1">
-                                    Payment:{" "}
+                                    Payment:{' '}
                                     <span className="text-gray-400">
                                         {item.paymentMethod}
                                     </span>

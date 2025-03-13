@@ -102,5 +102,58 @@ const adminLogin = async (req, res) => {
     }
 }
 
+// Get user profile
+const getUserProfile = async (req, res) => {
+    try {
+        
+        const decoded = jwt.verify(req.headers.token, process.env.JWT_SECRET)
 
-export { loginUser, registerUser, adminLogin }
+        const userId = decoded.id
+
+        const user = await userModel.findById(userId)
+
+        if (!user) {
+            return res.json({ success: false, message: "User not found!" });
+        }
+
+        res.json({ success: true, user });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+};
+
+// Update user profile
+const updateUserProfile = async (req, res) => {
+    try {
+
+        const decoded = jwt.verify(req.headers.token, process.env.JWT_SECRET)
+
+        const _id = decoded.id
+
+        const { name, email, userId } = req.body;
+
+        const user = await userModel.findByIdAndUpdate(_id, {
+            name,
+            email,
+            userId
+        });
+
+        if (!user) {
+            return res.json({ success: false, message: "User not found!" });
+        }
+
+        // Cập nhật thông tin
+        if (name) user.name = name;
+        if (email) user.email = email;
+
+        await user.save();
+        res.json({ success: true, message: "Profile updated!", user });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+};
+
+export { loginUser, registerUser, adminLogin, getUserProfile, updateUserProfile }

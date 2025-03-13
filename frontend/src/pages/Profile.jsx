@@ -41,8 +41,14 @@ const Profile = () => {
 
     try {
 
+      const response = await axios.put(backendUrl + '/api/user/update', user, {headers: {token}})
 
-      
+      if(response.data.success) {
+        toast.success(response.data.message)
+      } else {
+        toast.error(response.data.message)
+      }
+
     } catch (error) {
       console.log(error)
       toast.error(error)
@@ -54,8 +60,6 @@ const Profile = () => {
     fetchUser()
 
   }, [token])
-
-  console.log("User data: ", user)
 
   return (
     <div className="border-t pt-16">

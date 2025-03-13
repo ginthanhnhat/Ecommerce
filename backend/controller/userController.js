@@ -140,16 +140,10 @@ const updateUserProfile = async (req, res) => {
             userId
         });
 
-        if (!user) {
-            return res.json({ success: false, message: "User not found!" });
-        }
-
-        // Cập nhật thông tin
-        if (name) user.name = name;
-        if (email) user.email = email;
-
         await user.save();
-        res.json({ success: true, message: "Profile updated!", user });
+
+        res.json({ success: true, message: "Profile updated!"});
+
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });

@@ -9,6 +9,6 @@ userRouter.post('/login', loginUser)
 userRouter.post('/admin', adminLogin)
 
 userRouter.get('/profile', authUser, getUserProfile)
-userRouter.put('/updateUser', authUser, updateUserProfile)
+userRouter.put('/update', authUser, updateUserProfile)
 
 export default userRouter

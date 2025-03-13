@@ -108,9 +108,9 @@ const getUserProfile = async (req, res) => {
         
         const decoded = jwt.verify(req.headers.token, process.env.JWT_SECRET)
 
-        const userId = decoded.id
+        const _id = decoded.id
 
-        const user = await userModel.findById(userId)
+        const user = await userModel.findById(_id)
 
         if (!user) {
             return res.json({ success: false, message: "User not found!" });
@@ -132,17 +132,11 @@ const updateUserProfile = async (req, res) => {
 
         const _id = decoded.id
 
-        const { name, email, userId } = req.body;
+        const updatedUser = req.body;
 
-        const user = await userModel.findByIdAndUpdate(_id, {
-            name,
-            email,
-            userId
-        });
+        await userModel.findByIdAndUpdate(_id, updatedUser, { new: true });
 
-        await user.save();
-
-        res.json({ success: true, message: "Profile updated!"});
+        res.json({ success: true, message: "Profile updated!", updatedUser});
 
     } catch (error) {
         console.log(error);

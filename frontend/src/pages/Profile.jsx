@@ -11,12 +11,12 @@ const Profile = () => {
 
   const [ name, setName ] = useState('')
   const [ email, setEmail ] = useState('')
-  const [ userId, setUserId ] = useState('')
+  const [ customUserId, setCustomUserId ] = useState('')
 
   let user = {
     name,
     email,
-    userId
+    customUserId
   }
 
   const fetchUser = async () => {
@@ -28,6 +28,7 @@ const Profile = () => {
   
       setName(response.data.user.name);
       setEmail(response.data.user.email);
+      setCustomUserId(response.data.user.customUserId);
   
       console.log("Fetched User:", response.data.user)
 
@@ -39,11 +40,20 @@ const Profile = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault()
 
-    try {
+    const updatedUser = {
+      name,
+      email,
+      customUserId,
+    };
 
-      const response = await axios.put(backendUrl + '/api/user/update', user, {headers: {token}})
+    try {
+      
+      console.log("userId: ", updatedUser.customUserId)
+
+      const response = await axios.put(backendUrl + '/api/user/update', updatedUser, {headers: {token}})
 
       if(response.data.success) {
+        fetchUser()
         toast.success(response.data.message)
       } else {
         toast.error(response.data.message)
@@ -82,7 +92,7 @@ const Profile = () => {
 
           <div className='w-full flex flex-col sm:flex-row items-center justify-center mb-4 gap-4'>
             <p className='min-w-[120px]'>Custom UserId</p>
-            <input onChange={(e)=>setUserId(e.target.value)} value={user.userId} className='w-full max-w-[500px] px-3 py-2 border' type="text" placeholder='Enter User ID for recommendation' required/>
+            <input onChange={(e)=>setCustomUserId(e.target.value)} value={user.customUserId} className='w-full max-w-[500px] px-3 py-2 border' type="text" placeholder='Enter User ID for recommendation' required/>
           </div>
           
           <div className='w-full flex flex-col sm:flex-row items-center justify-center mb-4 gap-4'>

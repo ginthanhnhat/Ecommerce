@@ -56,7 +56,6 @@ const Collection = () => {
     };
 
     useEffect(() => {
-        console.log('category: ', category)
         applyFilter();
     }, [category, sortType, search, showSearch, products]);
 

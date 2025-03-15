@@ -152,7 +152,7 @@ const Product = () => {
                         }
                     </div>
                     
-                    {productData.description.length > 1 && (
+                    {productData.description[0]?.length > 350 && (
                         <button
                             className="text-blue-500 hover:underline mt-2"
                             onClick={() => setShowMore(!showMore)}

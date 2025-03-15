@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
     // userId: { type: String, unique: true, default: () => randomUserId() },
-    customUserId: { type: String, default: "aaaa" },
+    customUserId: { type: String, default: "" },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },

@@ -20,20 +20,19 @@ const Cart = () => {
         if (products.length > 0) {
             const tempData = [];
             for (const items in cartItems) {
-                for (const item in cartItems[items]) {
-                    if (cartItems[items][item] > 0)
-                        [
-                            tempData.push({
-                                _id: items,
-                                size: item,
-                                quantity: cartItems[items][item],
-                            }),
-                        ];
-                }
+                if (cartItems[items] > 0)
+                    [
+                        tempData.push({
+                            parent_asin: items,
+                            quantity: cartItems[items],
+                        }),
+                    ];
             }
             setCartData(tempData);
         }
     }, [cartItems, products]);
+
+    console.log('cartData: ', cartData)
 
     return (
         <div className="border-t pt-14">
@@ -44,7 +43,7 @@ const Cart = () => {
             <div className="">
                 {cartData.map((item, index) => {
                     const productData = products.find(
-                        (product) => product._id === item._id,
+                        (product) => product.parent_asin === item.parent_asin,
                     );
 
                     return (
@@ -55,20 +54,17 @@ const Cart = () => {
                             <div className="flex items-start gap-6">
                                 <img
                                     className="w-16 sm:w-20"
-                                    src={productData.images[0]}
+                                    src={productData.images[0].hi_res}
                                     alt=""
                                 />
                                 <div className="">
                                     <p className="text-xs sm:text-lg font-medium">
-                                        {productData.name}
+                                        {productData.title}
                                     </p>
                                     <div className="flex items-center gap-5 mt-2">
                                         <p>
                                             {currency}
-                                            {productData.price}
-                                        </p>
-                                        <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
-                                            {item.size}
+                                            {productData.price.toFixed(2)}
                                         </p>
                                     </div>
                                 </div>
@@ -80,8 +76,7 @@ const Cart = () => {
                                     e.target.value === '0'
                                         ? null
                                         : updateQuantity(
-                                              item._id,
-                                              item.size,
+                                              item.parent_asin,
                                               Number(e.target.value),
                                           )
                                 }
@@ -92,7 +87,7 @@ const Cart = () => {
                             />
                             <img
                                 onClick={() =>
-                                    updateQuantity(item._id, item.size, 0)
+                                    updateQuantity(item.parent_asin, 0)
                                 }
                                 className="w-4 mr-4 sm:w-5 cursor-pointer "
                                 src={assets.bin_icon}

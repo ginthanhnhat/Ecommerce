@@ -8,7 +8,7 @@ const LatestCollection = () => {
     const [latestProducts, setLatestProducts] = useState([]);
 
     useEffect(() => {
-        setLatestProducts(products.slice(0, 10));
+        setLatestProducts(products.slice(0, 5));
     }, [products]);
 
     return (
@@ -16,10 +16,7 @@ const LatestCollection = () => {
             <div className="text-center py-8 text-3xl">
                 <Title text1={'LATEST'} text2={'COLLECTION'} />
                 <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Sunt facilis porro in non, atque eum. Ipsa perspiciatis
-                    eaque, quod aspernatur tempora rerum, molestias culpa quam
-                    voluptate facilis rem praesentium unde.
+                    Discover the latest trends and must-have products, all in one place.
                 </p>
             </div>
 
@@ -28,10 +25,12 @@ const LatestCollection = () => {
                 {latestProducts.map((item, index) => (
                     <ProductItem
                         key={index}
-                        id={item._id}
-                        name={item.name}
+                        parent_asin={item.parent_asin}
+                        title={item.title}
                         images={item.images}
                         price={item.price}
+                        average_rating={item.average_rating}
+                        rating_number={item.rating_number}
                     />
                 ))}
             </div>

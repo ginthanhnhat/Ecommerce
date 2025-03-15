@@ -17,10 +17,7 @@ const BestSeller = () => {
             <div className="text-center text-3xl py-8">
                 <Title text1={'BEST'} text2={'SELLER'} />
                 <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Maxime voluptatem ducimus architecto magni, natus iure, modi
-                    repellendus cumque fugiat, facilis provident dolor? Atque
-                    nisi ipsam libero unde debitis perspiciatis ab!
+                    Shop our best sellers—top-rated and most-loved by customers.
                 </p>
             </div>
 
@@ -29,10 +26,12 @@ const BestSeller = () => {
                 {bestSeller.map((item, index) => (
                     <ProductItem
                         key={index}
-                        id={item._id}
-                        name={item.name}
+                        parent_asin={item.parent_asin}
+                        title={item.title}
                         images={item.images}
                         price={item.price}
+                        average_rating={item.average_rating}
+                        rating_number={item.rating_number}
                     />
                 ))}
             </div>

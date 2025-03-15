@@ -46,16 +46,13 @@ const PlaceOrder = () => {
             let orderItems = [];
 
             for (const items in cartItems) {
-                for (const item in cartItems[items]) {
-                    if (cartItems[items][item] > 0) {
-                        const itemInfo = structuredClone(
-                            products.find((product) => product._id === items),
-                        );
-                        if (itemInfo) {
-                            itemInfo.size = item;
-                            itemInfo.quantity = cartItems[items][item];
-                            orderItems.push(itemInfo);
-                        }
+                if (cartItems[items] > 0) {
+                    const itemInfo = structuredClone(
+                        products.find((product) => product.parent_asin === items),
+                    );
+                    if (itemInfo) {
+                        itemInfo.quantity = cartItems[items];
+                        orderItems.push(itemInfo);
                     }
                 }
             }
@@ -63,7 +60,7 @@ const PlaceOrder = () => {
             let orderData = {
                 address: formData,
                 items: orderItems,
-                amount: getCartAmount() + delivery_fee,
+                amount: (getCartAmount() + delivery_fee).toFixed(2),
             };
 
             switch (method) {
@@ -93,6 +90,7 @@ const PlaceOrder = () => {
                         const { session_url } = responseStripe.data;
                         window.location.replace(session_url);
                     } else {
+                        console.log(responseStripe.data.message);
                         toast.error(responseStripe.data.message);
                     }
                     break;

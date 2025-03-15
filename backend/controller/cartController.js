@@ -5,20 +5,15 @@ import userModel from "../models/userModel.js"
 const addToCart = async (req, res) => {
     try {
         
-        const { userId, itemId, size } = req.body
+        const { userId, itemId } = req.body
 
         const userData = await userModel.findById(userId)
         let cartData = await userData.cartData
 
         if(cartData[itemId]) {
-            if(cartData[itemId][size]) {
-                cartData[itemId][size] += 1
-            } else {
-                cartData[itemId][size] = 1
-            }
+            cartData[itemId] += 1
         } else {
-            cartData[itemId] = {}
-            cartData[itemId][size] = 1
+            cartData[itemId] = 1
         }
 
         await userModel.findByIdAndUpdate(userId, {cartData})
@@ -35,25 +30,25 @@ const addToCart = async (req, res) => {
 const updateCart = async (req, res) => {
     try {
         
-        const { userId, itemId, size, quantity } = req.body
+        const { userId, itemId, quantity } = req.body
 
         const userData = await userModel.findById(userId)
         let cartData = await userData.cartData
 
         
 
-        if (cartData[itemId][size] === 0) {
-            delete cartData[itemId][size]
+        if (cartData[itemId] === 0) {
+            delete cartData[itemId]
         }
     
         if (quantity === 0) {
-            delete cartData[itemId][size]
+            delete cartData[itemId]
 
             if (Object.keys(cartData[itemId]).length === 0) {
                 delete cartData[itemId];
             }
         } else {
-            cartData[itemId][size] = quantity
+            cartData[itemId] = quantity
         }
 
         await userModel.findByIdAndUpdate(userId, {cartData})

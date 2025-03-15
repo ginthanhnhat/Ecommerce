@@ -3,6 +3,7 @@ import { ShopContext } from '../context/ShopContext';
 import Title from '../components/Title';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { assets } from '../assets/assets';
 
 const Orders = () => {
     const { backendUrl, token, currency } = useContext(ShopContext);
@@ -61,7 +62,7 @@ const Orders = () => {
                         <div className="flex items-start gap-6 text-sm">
                             <img
                                 className="w-16 sm:w-20"
-                                src={item.images[0].hi_res}
+                                src={item.images[0] ? item.images[0].hi_res || item.images[0].large || item.images[0].thumb : assets.no_img}
                                 alt=""
                             />
                             <div>

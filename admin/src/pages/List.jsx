@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { backendUrl, currency } from '../App'
 import { toast } from 'react-toastify'
+import { assets } from '../assets/assets'
 
 const List = ({token}) => {
 
@@ -12,7 +13,7 @@ const List = ({token}) => {
 
       const response = await axios.get(backendUrl + "/api/product/list")
       if(response.data.success) {
-        setList(response.data.products)
+        setList(response.data.products.reverse())
       } else {
         toast.error(response.data.message)
       }
@@ -66,7 +67,7 @@ const List = ({token}) => {
         {
           list.map((item, index) => (
             <div className='grid grid-cols-[1fr_3fr_1fr] md:grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center gap-2 py-1 px-2 border text-sm' key={index}>
-              <img className='w-12' src={item.images[0].hi_res || item.images[0].large || item.images[0].thumb} alt="" />
+              <img className='w-12' src={item.images[0] ? item.images[0].hi_res || item.images[0].large || item.images[0].thumb : assets.no_img} alt="" />
               <p>{item.title}</p>
               <p>{item.main_category}</p>
               <p>{currency}{item.price}</p>

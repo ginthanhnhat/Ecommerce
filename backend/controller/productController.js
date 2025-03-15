@@ -4,26 +4,43 @@ import productModel from "../models/productModel.js"
 // ========== Function for Add product ==========
 const addProduct = async (req, res) => {
     try {
+
+        const isJSON = (str) => {
+            if (typeof str !== "string") return false;
+            try {
+                JSON.parse(str);
+                return true;
+            } catch (error) {
+                return false;
+            }
+        };
+
+        const fixJSONString = (str) => {
+            
+            if (typeof str === "object") return str;
         
-        const { main_category, title, features, description, price, store, categories, details, parent_asin } = req.body
+            let fixedStr = str.replace(/'/g, '"');
+        
+            try {
+                return JSON.parse(fixedStr);
+            } catch (error) {
+                console.error("Invalid JSON format:", error.message);
+                return fixedStr;
+            }
+        };
 
-        const image1 = req.files.image1 && req.files.image1[0]
-        const image2 = req.files.image2 && req.files.image2[0]
-        const image3 = req.files.image3 && req.files.image3[0]
-        const image4 = req.files.image4 && req.files.image4[0]
+        const { main_category, title, price, store, parent_asin } = req.body;
 
-        // const images = [image1, image2, image3, image4].filter((item)=>item !== undefined)
+        const categories = isJSON(req.body.categories) ? JSON.parse(req.body.categories) : req.body.categories;
+        const description = isJSON(req.body.description) ? JSON.parse(req.body.description) : req.body.description;
+        const features = isJSON(req.body.features) ? JSON.parse(req.body.features) : req.body.features;
+        const details = fixJSONString(req.body.details);
+
+        console.log("type of details: ",typeof(details))
 
         const images = ["image1", "image2", "image3", "image4"]
             .map(name => req.files[name]?.[0]?.path)
-            .filter(path => path !== undefined);
-
-        // let imagesUrl = await Promise.all(
-        //     images.map(async(item)=>{
-        //         let result = await cloudinary.uploader.upload(item.path, {resource_type: "image"})
-        //         return result.secure_url
-        //     })
-        // )
+            .filter(Boolean);
 
         let imagesUrl = await Promise.all(
             images.map(async (filePath) => {
@@ -37,51 +54,28 @@ const addProduct = async (req, res) => {
             })
         );
 
-        // ---------- Convert String to Json ----------
-        const parseArray = (input) => {
-            if (!input) return [];
-            try {
-                return typeof input === "string" ? JSON.parse(input) : input;
-            } catch (error) {
-                return [input];
-            }
-        };
-
-        const parseObject = (input) => {
-            if (!input) return {};
-            try {
-                return typeof input === "string" ? JSON.parse(input) : input;
-            } catch (error) {
-                return {};
-            }
-        };
-
-        const productData = { 
+        const productData = {
             title,
-            description: parseArray(description),
+            description,
             price: Number(price),
             main_category,
-            categories: parseArray(categories),
+            categories,
             images: imagesUrl,
-            features: parseArray(features),
-            details: parseObject(details),
+            features,
+            details,
             store,
-            parent_asin,
-            date: Date.now()
-        }
+            parent_asin
+        };
 
-        const product = new productModel(productData)
-        await product.save()
-    
-        console.log(product)
+        const product = new productModel(productData);
+        await product.save();
 
-        res.json({success: true, message: "Product Added!", product: product})
-
+        res.json({ success: true, message: "Product Added!", product });
     } catch (error) {
-        console.log(error)
-        res.json({success: false, message: error.message})
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
-}
+};
 
 // ========== Function for List product ==========
 const listProduct = async (req, res) => {

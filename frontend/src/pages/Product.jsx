@@ -28,6 +28,8 @@ const Product = () => {
             setImages(mainImage.hi_res || mainImage.large);
         } else if (foundProduct.images.length > 0) {
             setImages(foundProduct.images[0].hi_res || foundProduct.images[0].large);
+        } else {
+            setImages(assets.no_img)
         }
     };
 

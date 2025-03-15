@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { ShopContext } from '../context/ShopContext';
 import { Link } from 'react-router-dom';
 import RatingStars from './RatingStars';
+import { assets } from '../assets/assets';
 
 const ProductItem = ({ parent_asin, images, title, price, average_rating, rating_number }) => {
 
@@ -12,7 +13,7 @@ const ProductItem = ({ parent_asin, images, title, price, average_rating, rating
             <div className="overflow-hidden">
                 <img
                     className="hover:scale-110 transition ease-in-out w-full h-[222px]"
-                    src={images[0].hi_res || images[0].large || images[0].thumb}
+                    src={images[0] ? images[0].hi_res || images[0].large || images[0].thumb : assets.no_img}
                 />
             </div>
 

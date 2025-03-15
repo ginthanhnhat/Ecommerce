@@ -17,14 +17,20 @@ const productSchema = new mongoose.Schema({
         }], 
         default: [] 
     },  
-    videos: { type: [String], default: [] },  
+    videos: { 
+        type: [{
+            title: String,
+            url: String,
+            user_id: String,
+        }], 
+        default: [] 
+    },  
     store: { type: String, required: true }, 
     categories: { type: [String], default: [] },
     details: { 
-        type: Map,
-        of: mongoose.Schema.Types.Mixed,
-        default: {} },  
-    parent_asin: { type: String, required: true },  
+        type: Object,
+        default: {} },   
+    parent_asin: { type: String, required: true }, 
     bought_together: { type: [String], default: null }, 
 
 }, { timestamps: true }); 

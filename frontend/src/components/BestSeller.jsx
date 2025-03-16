@@ -8,7 +8,11 @@ const BestSeller = () => {
     const [bestSeller, setBestSeller] = useState([]);
 
     useEffect(() => {
-        const bestProduct = products.filter((item) => item.bestseller);
+        
+        const bestProduct = products
+        .filter((item) => item.average_rating >= 4.5)
+        .sort((a, b) => b.rating_number - a.rating_number)
+
         setBestSeller(bestProduct.slice(0, 5));
     }, [products]);
 

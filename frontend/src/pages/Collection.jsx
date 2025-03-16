@@ -3,13 +3,51 @@ import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { FaChevronLeft, FaChevronRight,FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 
 const Collection = () => {
-    const { products, search, showSearch, categories } = useContext(ShopContext);
+
+    // const { products, search, showSearch, categories } = useContext(ShopContext);
+    const { backendUrl, search, showSearch, categories } = useContext(ShopContext);
     const [showFilter, setShowFilter] = useState(false);
     const [filterProducts, setFilterProducts] = useState([]);
     const [category, setCategory] = useState([]);
     const [sortType, setSortType] = useState('relavent');
+
+    const [ products, setProducts ] = useState([]);
+    const [ page, setPage ] = useState(1);
+    const [ total, setTotal ] = useState(0)
+    const [ totalPages, setTotalPages ] = useState(0)
+
+
+    const limit = 20 // set limit of products in one page 
+
+    const fetchProducts = async (req, res) => {
+        try {
+            
+            const response = await axios.get(backendUrl + `/api/product/list?page=${page}&limit=${limit}`)
+
+            if (response.data.success) {
+                setProducts(response.data.products);
+                setTotal(response.data.total);
+                setTotalPages(response.data.totalPages)
+            } else {
+                console.log(response.data.message);
+                toast.error(response.data.message)
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message)
+        }
+        
+    }
+
+    useEffect(() => {
+        fetchProducts()
+    }, [page, limit]);
 
     const toggleCategory = (e) => {
         if (category.includes(e.target.value)) {
@@ -134,6 +172,26 @@ const Collection = () => {
                             rating_number={item.rating_number}
                         />
                     ))}
+                </div>
+
+                <div className='flex items-center justify-center gap-5 mt-10'>
+                    <a className={`text-blue-600 ${page > 1 ? '' : 'pointer-events-none opacity-50'}`} onClick={() => {setPage(1); window.scrollTo({ top: 0, behavior: "smooth" })}}><FaAngleDoubleLeft /></a>
+                    <a className={`text-blue-600 ${page > 1 ? '' : 'pointer-events-none opacity-50'}`} onClick={() => {setPage(prev => prev - 1); window.scrollTo({ top: 0, behavior: "smooth" })}}><FaChevronLeft /></a>
+                    <input className={`text-center focus:border-sky-500 focus:outline focus:outline-sky-500`} 
+                        type='text'
+                        value={page} 
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                const newPage = Number(e.target.value);
+                                if (!isNaN(newPage) && newPage >= 1 && newPage <= totalPages) {
+                                    setPage(newPage);
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                }
+                            }
+                        }}
+                        />
+                    <a className={`text-blue-600 ${page === totalPages ? 'pointer-events-none opacity-50' : ''}`} onClick={() => {setPage(prev => prev + 1); window.scrollTo({ top: 0, behavior: "smooth" })}}><FaChevronRight /></a>
+                    <a className={`text-blue-600 ${page === totalPages ? 'pointer-events-none opacity-50' : ''}`} onClick={() => {setPage(totalPages); window.scrollTo({ top: 0, behavior: "smooth" })}}><FaAngleDoubleRight /></a>
                 </div>
             </div>
         </div>

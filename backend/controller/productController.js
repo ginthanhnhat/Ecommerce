@@ -81,7 +81,7 @@ const addProduct = async (req, res) => {
 const listProduct = async (req, res) => {
     try {
 
-        const products = await productModel.find({})
+        const products = await productModel.find({}).limit(100)
         res.json({success: true, products})
 
     } catch (error) {

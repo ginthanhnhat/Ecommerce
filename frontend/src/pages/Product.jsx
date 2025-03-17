@@ -5,31 +5,38 @@ import { assets } from '../assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
 import { FaCircle, FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import RatingStars from '../components/RatingStars';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Product = () => {
     const { parent_asin } = useParams();
-    const { products, currency, addToCart } = useContext(ShopContext);
+    const { products, currency, addToCart, backendUrl } = useContext(ShopContext);
     const [productData, setProductData] = useState(false);
     const [images, setImages] = useState('');
 
     const [showMore, setShowMore] = useState(false);
 
     const fetchProductData = async () => {
-        if (!products || products.length === 0) return;
+        try {
 
-        const foundProduct = products.find(item => item.parent_asin === parent_asin);
-        if (!foundProduct) return;
+            console.log(parent_asin)
+            const response = await axios.post(backendUrl + '/api/product/single', {parent_asin})
+            console.log('found product', response.data.product)
 
-        setProductData(foundProduct)
-
-        const mainImage = foundProduct.images.find(img => img.variant === "MAIN");
-
-        if (mainImage) {
-            setImages(mainImage.hi_res || mainImage.large);
-        } else if (foundProduct.images.length > 0) {
-            setImages(foundProduct.images[0].hi_res || foundProduct.images[0].large);
-        } else {
-            setImages(assets.no_img)
+            if(response.data.success) {
+                setProductData(response.data.product);
+                if(response.data.product.images) {
+                    setImages(response.data.product.images[0].hi_res);
+                } else {
+                    setImages(assets.no_img);
+                }
+            } else {
+                console.log(response.data.message)
+                toast.error(response.data.message)
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message)
         }
     };
 

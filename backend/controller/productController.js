@@ -128,7 +128,7 @@ const singleProduct = async (req, res) => {
         
         const { parent_asin } = req.body
         const product = await productModel.findOne({parent_asin})
-        
+
         res.json({success: true, product})
 
     } catch (error) {

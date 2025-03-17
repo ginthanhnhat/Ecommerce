@@ -3,6 +3,7 @@ import { ShopContext } from '../context/ShopContext';
 import Title from '../components/Title';
 import { assets } from '../assets/assets';
 import CartTotal from '../components/CartTotal';
+import { Link } from 'react-router-dom';
 
 const Cart = () => {
     const {
@@ -47,7 +48,8 @@ const Cart = () => {
                     );
 
                     return (
-                        <div
+                        <Link
+                            to={`/product/${productData.parent_asin}`}
                             key={index}
                             className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
                         >
@@ -93,7 +95,7 @@ const Cart = () => {
                                 src={assets.bin_icon}
                                 alt=""
                             />
-                        </div>
+                        </Link>
                     );
                 })}
             </div>

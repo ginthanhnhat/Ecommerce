@@ -19,14 +19,12 @@ const Product = () => {
     const fetchProductData = async () => {
         try {
 
-            console.log(parent_asin)
             const response = await axios.post(backendUrl + '/api/product/single', {parent_asin})
-            console.log('found product', response.data.product)
 
             if(response.data.success) {
                 setProductData(response.data.product);
                 if(response.data.product.images) {
-                    setImages(response.data.product.images[0].hi_res);
+                    setImages(response.data.product.images[0].hi_res || response.data.product.images[0].large || response.data.product.images[0].thumb);
                 } else {
                     setImages(assets.no_img);
                 }

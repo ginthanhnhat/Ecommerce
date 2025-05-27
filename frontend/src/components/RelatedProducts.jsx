@@ -29,6 +29,28 @@ const RelatedProducts = ({ main_category, categories, parent_asin }) => {
 
     }, [products, main_category, categories, parent_asin]);
 
+    // useEffect(() => {
+    //     const fetchRelated = async () => {
+    //         try {
+    //             const response = await fetch('http://localhost:3001/api/recommend/cbf', {
+    //                 method: 'POST',
+    //                 headers: { 'Content-Type': 'application/json' },
+    //                 body: JSON.stringify({
+    //                     item_id: parent_asin,
+    //                     user_id: localStorage.getItem('user_id') // nếu có
+    //                 })
+    //             });
+    
+    //             const data = await response.json();
+    //             setRelated(data);
+    //         } catch (err) {
+    //             console.error('Failed to fetch related products', err);
+    //         }
+    //     };
+    
+    //     fetchRelated();
+    // }, [parent_asin]);
+
     return (
         <div className="my-24">
             <div className="text-center text-3xl py-2">

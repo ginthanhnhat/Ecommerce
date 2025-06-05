@@ -179,8 +179,30 @@ const Product = () => {
                 categories={productData.categories}
                 parent_asin = {parent_asin}
             /> */}
+
+            <RecommendationSection 
+                title={'Recommended For You'}
+                model={'neumf'}
+                payload={{
+                    user_id: 'AE22ROVSXEBTQR3P74MUNSRFPZZQ',
+                    category: productData.main_category,
+                    top_k: 5
+                }}
+            />
+
             <RecommendationSection 
                 title={'Related Products'}
+                model={'iicf'}
+                payload={{
+                    user_id: 'AE22ROVSXEBTQR3P74MUNSRFPZZQ',
+                    category: productData.main_category,
+                    item_id: productData.parent_asin,
+                    top_k: 5
+                }}
+            />
+
+            <RecommendationSection 
+                title={'You Might Also Like'}
                 model={'cbf'}
                 payload={{
                     user_id: 'AE22ROVSXEBTQR3P74MUNSRFPZZQ',
@@ -189,6 +211,39 @@ const Product = () => {
                 }}
             />
 
+            <RecommendationSection 
+                title={'Customers Also Liked'}
+                model={'uucf'}
+                payload={{
+                    user_id: 'AE22ROVSXEBTQR3P74MUNSRFPZZQ',
+                    category: productData.main_category,
+                    item_id: productData.parent_asin,
+                    top_k: 5
+                }}
+            />
+            
+            <RecommendationSection 
+                title={'Top Picks For You'}
+                model={'mfcf'}
+                payload={{
+                    user_id: 'AE22ROVSXEBTQR3P74MUNSRFPZZQ',
+                    category: productData.main_category,
+                    item_id: productData.parent_asin,
+                    top_k: 5
+                }}
+            />
+
+            <RecommendationSection 
+            title={'Personalized Recommendations'}
+            model={'hybrid'}
+            payload={{
+                user_id: 'AE22ROVSXEBTQR3P74MUNSRFPZZQ',
+                category: productData.main_category,
+                item_id: productData.parent_asin,
+                top_k: 5
+            }}
+            />
+            
             <hr className="my-10 sm:w-full" />
 
             {/* ---------- Product Reviews ---------- */}

@@ -4,11 +4,12 @@ import Title from './Title';
 import ProductItem from './ProductItem';
 import { ShopContext } from '../context/ShopContext';
 
-const RecommendationSection = ({ title, model = 'cbf', payload }) => {
+const RecommendationSection = ({ title, model, payload }) => {
   const [items, setItems] = useState([]);
   const { backendUrl } = useContext(ShopContext);
 
   const payloadStable = useMemo(() => payload, [JSON.stringify(payload)]);
+  console.log('payload: ', payloadStable)
   
   const fetchRecommendations = useCallback(async () => {
     try {

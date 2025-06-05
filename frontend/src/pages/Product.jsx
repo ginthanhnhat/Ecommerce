@@ -7,6 +7,7 @@ import { FaCircle, FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import RatingStars from '../components/RatingStars';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import RecommendationSection from '../components/RecommendationSection';
 
 const Product = () => {
     const { parent_asin } = useParams();
@@ -173,10 +174,19 @@ const Product = () => {
             <hr className="mt-20 sm:w-full" />
 
             {/* ---------- Display Related Products ---------- */}
-            <RelatedProducts
+            {/* <RelatedProducts
                 main_category={productData.main_category}
                 categories={productData.categories}
                 parent_asin = {parent_asin}
+            /> */}
+            <RecommendationSection 
+                title={'Related Products'}
+                model={'cbf'}
+                payload={{
+                    user_id: 'AE22ROVSXEBTQR3P74MUNSRFPZZQ',
+                    category: productData.main_category,
+                    top_k: 5
+                }}
             />
 
             <hr className="my-10 sm:w-full" />

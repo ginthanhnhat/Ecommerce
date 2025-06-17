@@ -8,6 +8,7 @@ import RatingStars from '../components/RatingStars';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import RecommendationSection from '../components/RecommendationSection';
+import Review from '../components/Review';
 
 const Product = () => {
     const { parent_asin } = useParams();
@@ -16,6 +17,47 @@ const Product = () => {
     const [images, setImages] = useState('');
 
     const [showMore, setShowMore] = useState(false);
+
+    // const [ ratings, setRatings ] = useState([])
+    // const [ totalRating, setTotalRating ] = useState(0)
+    // const [ reviews, setReviews ] = useState([])
+
+    // const fetchRatingNumber = async () => {
+    //     try {
+
+    //         const response = await axios.post(backendUrl + '/api/review/rating', {parent_asin})
+
+    //         if(response.data.success) {
+    //             setRatings(response.data.ratings)
+    //             setTotalRating(response.data.total)
+    //         }
+    //         else {
+    //             console.log(response.data.message)
+    //             toast.error(response.data.message)
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast.error(error.message) 
+    //     }
+    // }
+
+    // const fetchReviews = async () => {
+    //     try {
+
+    //         const response = await axios.post(backendUrl + '/api/review/list', {parent_asin})
+
+    //         if(response.data.success) {
+    //             setReviews(response.data.reviews)
+    //         }
+    //         else {
+    //             console.log(response.data.message)
+    //             toast.error(response.data.message)
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast.error(error.message) 
+    //     }
+    // }
 
     const fetchProductData = async () => {
         try {
@@ -41,6 +83,8 @@ const Product = () => {
 
     useEffect(() => {
         fetchProductData();
+        // fetchRatingNumber();
+        // fetchReviews();
     }, [parent_asin, products]);
 
     return productData ? (
@@ -248,8 +292,9 @@ const Product = () => {
 
             {/* ---------- Product Reviews ---------- */}
             <div>
-                <h2 className="text-xl font-semibold mb-3">Customer reviews</h2>
-
+                <Review 
+                    
+                />
             </div>
         </div>
     ) : (

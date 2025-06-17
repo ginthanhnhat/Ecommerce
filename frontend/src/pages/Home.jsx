@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Hero from '../components/Hero';
 import LatestCollection from '../components/LatestCollection';
 import BestSeller from '../components/BestSeller';
 import OurPolicy from '../components/OurPolicy';
 import NewsletterBox from '../components/NewsletterBox';
 import RecommendationSection from '../components/RecommendationSection';
+import { ShopContext } from '../context/ShopContext';
 
 const Home = () => {
+
+    const { customUserId } = useContext(ShopContext)
+    console.log('customUserId: ', customUserId)
+    
     return (
         <div>
             <Hero />

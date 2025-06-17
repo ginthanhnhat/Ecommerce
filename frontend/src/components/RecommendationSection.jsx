@@ -9,7 +9,7 @@ const RecommendationSection = ({ title, model, payload }) => {
   const { backendUrl } = useContext(ShopContext);
 
   const payloadStable = useMemo(() => payload, [JSON.stringify(payload)]);
-  console.log('payload: ', payloadStable)
+  // console.log('payload: ', payloadStable)
   
   const fetchRecommendations = useCallback(async () => {
     try {

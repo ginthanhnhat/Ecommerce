@@ -27,7 +27,6 @@ dist-ssr
 
 work.txt
 
-recommender/data/
 recommender/__pycache__/
 recommender/**/*.py[cod]
 recommender/*.egg-info/

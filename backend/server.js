@@ -9,6 +9,7 @@ import cartRouter from './routes/cartRoute.js'
 import orderRouter from './routes/orderRoute.js'
 import recommendationRouter from './routes/recommendationRoute.js'
 import reviewRouter from './routes/reviewRoute.js'
+import adminRoute from './routes/adminRoute.js'
 
 // App Config
 const app = express()
@@ -27,6 +28,7 @@ app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)
 app.use('/api/review', reviewRouter)
 app.use('/api/recommend', recommendationRouter)
+app.use('/api/admin', adminRoute)
 
 app.get('/', (req, res) => {
     res.send("SUNshine Forever API!")

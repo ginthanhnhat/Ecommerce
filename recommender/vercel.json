@@ -2,14 +2,14 @@
   "version": 0,
   "builds": [
     {
-      "src": "./recommentder/main.py",
+      "src": "recommentder/main.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)", 
-      "dest": "./recommentder/main.py"
+      "dest": "recommentder/main.py"
     }
   ]
 }

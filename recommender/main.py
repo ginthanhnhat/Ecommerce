@@ -4,6 +4,11 @@ from routes import cbf, iicf, uucf, mfcf, neumf, hybrid, nbcf
 app = FastAPI(title="Recommender API")
 
 print("Recommender API is running ...")
+
+@app.get("/")
+def root():
+    return {"message": "Recommender API is running ..."}
+
 app.include_router(cbf.router, prefix="/api/recommend")
 app.include_router(iicf.router, prefix="/api/recommend")
 app.include_router(uucf.router, prefix="/api/recommend")

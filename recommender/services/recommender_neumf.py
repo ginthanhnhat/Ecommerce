@@ -1,7 +1,7 @@
 import os
 import numpy as np
-from tensorflow.keras.models import load_model
-from services.model_loader import load_mapping
+# from tensorflow.keras.models import load_model
+# from services.model_loader import load_mapping
 
 def normalize_category(category: str) -> str:
     return category.replace(" ", "_")
